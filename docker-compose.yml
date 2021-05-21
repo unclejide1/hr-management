@@ -1,0 +1,27 @@
+version: '3.7'
+services:
+  myapp:
+    container_name: hr-management_myapp
+    build: .
+    restart: unless-stopped
+    environment:
+      - JAVA_OPTS=
+        -DDB_SERVER=jdbc:mysql://my_db:3306/my_db?serverTimezone=UTC
+    ports:
+      - 8082:8080
+    depends_on:
+      - my_db
+
+  my_db:
+    container_name: my_db
+    restart: unless-stopped
+    image: mysql
+    volumes:
+      - ./data:/var/lib/mysql
+    ports:
+      - 63306:3306
+    environment:
+      - MYSQL_ROOT_PASSWORD=password
+      - MYSQL_PASSWORD=password
+      - MYSQL_USER=user
+      - MYSQL_DATABASE=my_db
